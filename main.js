@@ -1,13 +1,17 @@
 import * as THREE from "three";
 import "./style.css";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
+import gsap from "gsap";
 
 const scene = new THREE.Scene();
 
 scene.background = "#ffffff";
 
 const earthTexture = new THREE.TextureLoader().load("/earth.jpg");
-const earthMaterial = new THREE.MeshStandardMaterial({ map: earthTexture });
+const earthMaterial = new THREE.MeshStandardMaterial({
+  map: earthTexture,
+  roughness: 0.5,
+});
 const geometry = new THREE.SphereGeometry(3, 64, 64);
 
 const earth = new THREE.Mesh(geometry, earthMaterial);
@@ -20,6 +24,7 @@ const sizes = {
 
 const light = new THREE.PointLight(0xffffff, 1, 100);
 light.position.set(0, 10, 10);
+light.intensity = 0.9;
 scene.add(light);
 
 const camera = new THREE.PerspectiveCamera(45, sizes.width / sizes.height);
@@ -38,7 +43,7 @@ controls.enableDamping = true;
 controls.enablePan = false;
 controls.enableZoom = false;
 controls.autoRotate = true;
-controls.autoRotateSpeed = 5;
+controls.autoRotateSpeed = 1.5;
 
 window.addEventListener("resize", () => {
   sizes.width = window.innerWidth;
@@ -68,3 +73,9 @@ const loop = () => {
   window.requestAnimationFrame(loop);
 };
 loop();
+
+const timeLine1 = gsap.timeline({ defaults: { duration: 3 } });
+const timeLine2 = gsap.timeline({ defaults: { duration: 3 } });
+timeLine1.fromTo(earth.scale, { z: 0, x: 0, y: 0 }, { z: 1, x: 1, y: 1 });
+timeLine2.fromTo("nav", { y: "-100%" }, { y: "0%" });
+timeLine2.fromTo(".title", { opacity: 0 }, { opacity: 1 });
