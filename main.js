@@ -6,7 +6,7 @@ const scene = new THREE.Scene();
 
 scene.background = "#ffffff";
 
-const earthTexture = new THREE.TextureLoader().load("earth.jpg");
+const earthTexture = new THREE.TextureLoader().load("/earth.jpg");
 const earthMaterial = new THREE.MeshStandardMaterial({ map: earthTexture });
 const geometry = new THREE.SphereGeometry(3, 64, 64);
 
